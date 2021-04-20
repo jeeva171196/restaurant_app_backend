@@ -1,0 +1,62 @@
+{% extends 'admin/master.html' %}
+
+{% block head_css %}
+{{ super() }}
+<link href="{{ url_for('static', filename='styles.css') }}" rel="stylesheet" type="text/css">
+{% endblock head_css %}
+
+{% block body %}
+{{ super() }}
+<div class="row-fluid">
+
+    <div>
+        {% if current_user.is_authenticated %}
+
+        <div class="btn-group pull-right">
+            <a class="btn" href="{{ url_for('admin.logout_view') }}">
+                Welcome {{ current_user.username }} [click here to logout] </span>
+            </a>
+        </div>
+        <h1>Restaurant App Admin View</h1>
+        {% if length%}
+        <p class="lead">
+<!--            All loads Summary-->
+        </p>
+        <!--        <p>-->
+        <!--            The Admin can able to <b>Add / Edit / Delete</b> the records for the listed tables.-->
+        <!--        </p>-->
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+<!--                Overview-->
+            </div>
+        </div>
+        {% else %}
+        <p class="lead">
+<!--            No loads details are found...-->
+        </p>
+        {% endif %}
+        {% else %}
+        <form method="POST" action="">
+            {{ form.hidden_tag() if form.hidden_tag }}
+            {% for f in form if f.type != 'CSRFTokenField' %}
+            <div>
+                {{ f.label }}
+                {{ f }}
+                {% if f.errors %}
+                <ul>
+                    {% for e in f.errors %}
+                    <li>{{ e }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
+            {% endfor %}
+            <button class="btn" type="submit">Submit</button>
+        </form>
+        {{ link | safe }}
+        {% endif %}
+    </div>
+
+</div>
+{% endblock body %}
